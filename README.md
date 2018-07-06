@@ -1,5 +1,5 @@
 # webpack4-cli-for-Vue
-这是一个服务于Vue框架的基于Webpack4构建的前端开发脚手架
+这是一个服务于Vue框架的基于Webpack4构建的前端开发脚手架 , 集成了 vue-router 和 vuex
 
 1.安装依赖
 
