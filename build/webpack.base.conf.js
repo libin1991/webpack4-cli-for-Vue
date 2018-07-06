@@ -120,7 +120,9 @@ module.exports = {
                 require('postcss-import')({ root: loader.resourcePath }), // 在@import css文件的时候让webpack监听并编译
                 require('postcss-cssnext')({}), // cssnext可以让你写CSS4的语言，并能配合autoprefixer进行浏览器兼容的不全，而且还支持嵌套语法
                 // require('autoprefixer')({browsers: "ie >= 9"}), // 浏览器兼容前缀补全
-                require('cssnano')({}) // 压缩优化css代码
+                require('cssnano')({}), // 压缩优化css代码
+                require('postcss-px2rem')({ remUnit: 16, baseDpr: 2 }),
+                require('postcss-plugins-px2rem')({ remUnit: 16, baseDpr: 2 })
               ]
             }
           }

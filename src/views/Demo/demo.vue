@@ -1,5 +1,8 @@
 <template>
     <div class="wrap">
+        <div>
+            <router-link to="/vuexDemo">Go Vuex Demo</router-link>
+        </div>
         <h1 :title="x">Vue文档练习</h1>
         <!-- 声明式渲染 -->
         <h2 v-once>不变的计数器 : {{ a }}</h2>
@@ -113,6 +116,7 @@ export default {
         >button {
             padding: 15px 30px;
             border-radius: 8px;
+            cursor: pointer;
         }
         >input {
             width: 280px;

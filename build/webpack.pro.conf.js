@@ -79,15 +79,6 @@ const proWebpackConfig = merge(baseWebpackConfig, {
     // }),
   ],
 
-  // optimization: {
-  //     minimize: true,
-  //     nodeEnv: 'production',
-  //     sideEffects: true,
-  //     concatenateModules: true,
-  //     splitChunks: { chunks: 'all' },
-  //     runtimeChunk: true,
-  // },
-
   optimization: {
     // 打包优化
     minimizer: [

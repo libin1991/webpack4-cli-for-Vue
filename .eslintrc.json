@@ -1,9 +1,8 @@
 {
-    "extends": ["prettier", "standard"],
+    "extends": ["standard"],
     "plugins": [
         "standard",
-        "promise",
-        "prettier"
+        "promise"
     ],
     "rules": {
         "indent": ["error", 2],
@@ -13,7 +12,6 @@
         "no-unused-vars": 0,
         "no-new": 0,
         "eqeqeq":0,
-        "prettier/prettier": "warn",
         "semi": [0]
     }
 }
