@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "element-ui": "^2.4.4",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   },
@@ -35,6 +36,7 @@
     "eslint-plugin-prettier": "^2.6.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "file-loader": "^1.1.11",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "happypack": "^5.0.0",
     "html-beautify-webpack-plugin": "^1.0.5",

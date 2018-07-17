@@ -18,12 +18,14 @@
         <h2>学生信息统计：</h2>
         <ul>
             <li 
-                v-for="e of data"
+                v-for="e of arrayData"
                 :key="e.id"
             >
                 {{ `${ e.name }的学号是${ e.id },来自${ e.from }` }}
             </li>
         </ul>
+        <button @click="deleteArr">删除数组数据</button>
+        <button @click="setArray">添加数组数据</button>
         <!-- 表单和数据双向绑定 -->
         <h2>{{ msg }}</h2>
         <input type="text" v-model="msg">
@@ -34,8 +36,41 @@
         <h2>Using v-html directive: <span v-html="rawHtml"></span></h2>
         <!-- html特性绑定 -->
         <h2 :title="`大声唱${title}`">鼠标移到我身上看看效果</h2>
+
+        <h1 class="wheel" ref="wheel" @wheel="handleWheel">鼠标滚轮事件测试</h1>
+        <div class="xxx" @wheel.prevent="handleWheel2" ref="baba">
+            <div class="container" :style="{ marginLeft: left + 'px' }" ref="zzz">
+                <div v-for="(e,i) of newArr" :key="i" ref="wheel2">
+                    <!-- <span> -->
+                        {{ e.name }}
+                    <!-- </span> -->
+                </div>
+            </div>
+            <div class="line"></div>
+        </div>
         
+        <br>
+        <button @click="addBread">添加面包屑</button>
+        <br>
+        <button @click="removeBread">移除面包屑</button>
         
+        <div class="xxx" @wheel.prevent="handleWheel2" ref="baba">
+            <div class="container" :style="{ marginLeft: ml + 'px' }">
+                <div> A </div>
+                <div> B </div>
+                <div> C</div>
+                <div> D </div>
+                <div ref="qwer">
+                    offsetLeft测试
+                </div>
+            </div>
+            <div class="line"></div>
+        </div>
+        <br>
+        ml:<input type="text" v-model="ml">
+        ol:<input type="text" v-model="ol">
+        <br>
+        <button @click="qwer">获取这个qwer元素属性</button>
     </div>
 </template>
 
@@ -44,20 +79,27 @@ export default {
     /* 子组件，用之前需要导入 */
     components: {}, 
 
+    mounted () {
+        
+    },
+
     /* 数据中心 */
     data () {
         return {
             x : 'hello',
             a : 0,
             seen : false,
-            data : [
-                { name: '小明', id: '001', from: '徐汇' },
-                { name: '小花', id: '002', from: '静安' },
-                { name: '小华', id: '003', from: '黄埔' },
-            ],
+            arrayData : [],
             msg : 'Hello',
             rawHtml : '<span style="color: red">This should be red</span>',
-            title: 'lalala~'
+            title: 'lalala~',
+            newArr: [],
+            left: 0,
+            leftWidth: 0,
+            rightWidth: 0,
+            totalWidth: 0, 
+            ml: 0,
+            ol: '',
         }
     },
 
@@ -86,11 +128,17 @@ export default {
             })
             // 用on接收消息 this.$eventHub.$on('cHasChaned', msg => {})
             
-        }  
+        }
     },    
 
     /* 方法 */
     methods: {
+        setArray () {
+                // { name: '小明', id: '001', from: '徐汇' },
+                // { name: '小花', id: '002', from: '静安' },
+                // { name: '小华', id: '003', from: '黄埔' },
+          this.arrayData.push({ name: '小明', id: '001', from: '徐汇' })
+        },
         addOne () {
             console.log('add')
             this.a++
@@ -99,8 +147,58 @@ export default {
             console.log(12345)
             this.a--
         },
+        deleteArr () {
+            // this.$delete(this.data, 1)
+            this.arrayData.splice(0,1)
+        },
         toggleShow () {
             this.seen = !this.seen
+        },
+        handleWheel (e) {
+            const obj = this.$refs.wheel
+
+            console.log(`鼠标滚轮测试: ${obj.offsetWidth}`)
+        },
+        addBread (e) {
+            const sumWidth = this.$refs.baba.offsetWidth
+            const leftWidth = this.$refs.zzz.offsetWidth
+            let offset = leftWidth - sumWidth
+            console.log('宽度为：', sumWidth)
+            console.log(`
+                sumWidth = ${sumWidth}
+                leftWidth = ${leftWidth}
+                offset = ${offset}
+            `)
+
+            this.newArr.push({ name: '大众出行', id: '001'})
+
+            // this.left -= leftWidth >= sumWidth && 70 
+        },
+        removeBread (e) {
+            this.newArr.splice(0,1)
+        },
+        handleWheel2 (e) {
+            let sign = e.wheelDelta // 鼠标滚轮向上还是向下滚动的标志
+            // const offset = this.$refs.wheel2[0].offsetWidth // 设定一个偏移量
+            const offset = 15 // 设定一个偏移量
+            if (sign > 0) {
+                this.left -= offset
+            } else {
+                this.left += offset
+            }
+            // const obj = this.$refs.wheel2[0]
+            // const offset = 70
+            // console.log(`鼠标的滚轮事件e = ${e}`)
+            // // console.log(`这个ref = ${obj.offsetWidth}`)
+            // this.left -= offset
+            // console.log(e.wheelDelta)
+            // this.$refs.zzz.scrollLeft -= 70
+        },
+        qwer (e) {
+            const obj = this.$refs.qwer
+            console.log(`obj =`, obj)
+            console.log(`obj的offsetLeft = ${obj.offsetLeft}`)
+            this.ol = obj.offsetLeft
         }
     }   
     
@@ -123,5 +221,41 @@ export default {
             height: 35px;
             font-size: 20px;
         }
+        >.wheel {
+            width: 500px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            background-color: palevioletred;
+        }
+        >.xxx {
+            position: relative;
+            width: 1000px;
+            height: 40px;
+            background-color: palegoldenrod;
+            display: flex;
+            .container {
+                border: 1px solid black;
+                align-self: center;
+                display: flex;
+                >div {
+                    height: 25px;
+                    line-height: 25px;
+                    padding: 5px;
+                    margin: 5px;
+                    background-color: palevioletred;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+            .line {
+                flex: 1;
+                height: 1px;
+                background-color: #000;
+                align-self: center;
+            }
+        }
+        
+        
     }
 </style>
